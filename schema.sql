@@ -43,7 +43,8 @@ CREATE TABLE internship_listings (
   start_date DATE,
   end_date DATE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  CHECK (end_date IS NULL OR end_date >= start_date)  -- ensures end_date >= start_date if set
+  CHECK (end_date IS NULL OR end_date >= start_date),
+  CONSTRAINT unique_business_listing UNIQUE (business_id, title, start_date, end_date)  -- 🚫 prevents duplicate postings
 );
 
 -- Applications table
@@ -66,8 +67,8 @@ CREATE TABLE feedback (
 -- Messages table
 CREATE TABLE messages (
   message_id SERIAL PRIMARY KEY,
-  sender_id INTEGER NOT NULL,    -- Could add FK constraint if you want to restrict sender to known users (students/admins/businesses)
-  receiver_id INTEGER NOT NULL,  -- Same as sender_id note above
+  sender_id INTEGER NOT NULL,    -- Could add FK constraint if you want to restrict sender to known users
+  receiver_id INTEGER NOT NULL,
   message_body TEXT NOT NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -75,10 +76,8 @@ CREATE TABLE messages (
 -- Audit Logs table
 CREATE TABLE audit_logs (
   log_id SERIAL PRIMARY KEY,
-  actor_id INTEGER NOT NULL,  -- could be a foreign key depending on system design
+  actor_id INTEGER NOT NULL,  -- Could link to students/admins/businesses depending on design
   action_type VARCHAR(100) NOT NULL,
   target_table VARCHAR(100) NOT NULL,
   timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
