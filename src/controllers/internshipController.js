@@ -69,7 +69,33 @@ const getAllInternships = async (req, res) => {
   }
 };
 
+// ✅ Fetch a single internship by ID (with business info)
+const getInternshipById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query(
+      `SELECT il.*, b.company_name, b.industry, b.website
+       FROM internship_listings il
+       JOIN businesses b ON il.business_id = b.business_id
+       WHERE il.listing_id = $1`,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Internship not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch internship' });
+  }
+};
+
+
 module.exports = {
   createInternship,
   getAllInternships,
+  getInternshipById,
 };
