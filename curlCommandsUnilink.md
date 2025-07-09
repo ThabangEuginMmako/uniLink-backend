@@ -39,11 +39,11 @@ curl -X POST http://localhost:5000/api/auth/login \
 curl -X POST http://localhost:5000/api/business/auth/register \
 -H "Content-Type: application/json" \
 -d '{
-  "company_name": "OpenAI",
-  "email": "openai@example.com",
+  "company_name": "UniLink",
+  "email": "unilink@example.com",
   "password": "securepass123",
-  "industry": "AI Research",
-  "website": "https://openai.com"
+  "industry": "Technology",
+  "website": "https://unilink.com"
 }'
 ```
 
@@ -53,7 +53,7 @@ curl -X POST http://localhost:5000/api/business/auth/register \
 curl -X POST http://localhost:5000/api/business/auth/login \
 -H "Content-Type: application/json" \
 -d '{
-  "email": "openai@example.com",
+  "email": "unilink@example.com",
   "password": "securepass123"
 }'
 ```
